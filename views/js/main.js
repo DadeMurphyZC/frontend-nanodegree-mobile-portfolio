@@ -402,13 +402,13 @@ var resizePizzas = function (size) {
     function changeSliderLabel(size) {
         switch (size) {
             case "1":
-                document.querySelector("#pizzaSize").innerHTML = "Small";
+                document.getElementById("pizzaSize").innerHTML = "Small";
                 return;
             case "2":
-                document.querySelector("#pizzaSize").innerHTML = "Medium";
+                document.getElementById("pizzaSize").innerHTML = "Medium";
                 return;
             case "3":
-                document.querySelector("#pizzaSize").innerHTML = "Large";
+                document.getElementById("pizzaSize").innerHTML = "Large";
                 return;
             default:
                 console.log("bug in changeSliderLabel");
@@ -420,7 +420,7 @@ var resizePizzas = function (size) {
     // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
     function determineDx(elem, size) {
         var oldWidth = elem.offsetWidth;
-        var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
+        var windowWidth = document.getElementById("randomPizzas").offsetWidth;
         var oldSize = oldWidth / windowWidth;
 
         // Changes the slider value to a percent width
@@ -499,12 +499,13 @@ function logAverageFrame(times) { // times is the array of User Timing measureme
 function updatePositions() {
     frame++;
     window.performance.mark("mark_start_frame");
-    var items = document.querySelectorAll('.mover');
+    var items = document.getElementsByClassName('mover');
     var cachedLength = items.length;
-    var top = document.body.scrollTop;
+    var top = document.body.scrollTop/1250;
+    var halfScreenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width) / 2;
     for (var i = 0; i < cachedLength; i++) {
-        var phase = Math.sin((top / 1250) + (i % 5));
-        items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+        var phase = Math.sin(top + (i % 5));
+        items[i].style.transform = 'translateX('+(items[i].basicLeft + 50 * phase - halfScreenWidth) + 'px)';
     }
 
     // User Timing API to the rescue again. Seriously, it's worth learning.
